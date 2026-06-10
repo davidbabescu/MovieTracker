@@ -1,0 +1,648 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:MovieTracker.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="750"
+        x:Class="MovieTracker.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Title="🎬 MovieTracker"
+        Background="#0D0D14"
+        Width="1100" Height="750"
+        MinWidth="900" MinHeight="600"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Styles>
+
+        <Style Selector="TabControl">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <Style Selector="TabItem">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="20,10"/>
+            <Setter Property="Foreground" Value="#6A6A8A"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="TabItem:selected">
+            <Setter Property="Foreground" Value="#009507"/>
+        </Style>
+
+        <Style Selector="TabItem:selected /template/ Border#PART_LayoutRoot">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="ListBox">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+
+        <Style Selector="ListBoxItem">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0"/>
+        </Style>
+
+        <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="TextBox">
+            <Setter Property="Background" Value="#161620"/>
+            <Setter Property="Foreground" Value="#EAEAF0"/>
+            <Setter Property="BorderBrush" Value="#2A2A3A"/>
+            <Setter Property="CaretBrush" Value="#F5C518"/>
+        </Style>
+
+    </Window.Styles>
+
+    <Grid RowDefinitions="Auto,*,Auto" Background="#0D0D14">
+
+        <!-- ══════════════════════════════════════════════════════ -->
+        <!--                        HEADER                         -->
+        <!-- ══════════════════════════════════════════════════════ -->
+        <Border Grid.Row="0"
+                Background="#0D0D14"
+                Padding="24,14"
+                BorderBrush="#1E1E2E"
+                BorderThickness="0,0,0,1">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+
+                <StackPanel Grid.Column="0"
+                            Orientation="Horizontal"
+                            Spacing="10"
+                            VerticalAlignment="Center">
+                    <TextBlock Text="🎬" FontSize="26" VerticalAlignment="Center"/>
+                    <TextBlock Text="MovieTracker"
+                               FontSize="22" FontWeight="Bold"
+                               Foreground="#F5C518"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <Grid Grid.Column="1" ColumnDefinitions="*,Auto" Margin="40,0">
+                    <TextBox Grid.Column="0"
+                             Text="{Binding SearchQuery}"
+                             Watermark="Search for movies..."
+                             Padding="14,10"
+                             CornerRadius="12,0,0,12">
+                        <TextBox.KeyBindings>
+                            <KeyBinding Gesture="Enter" Command="{Binding SearchCommand}"/>
+                        </TextBox.KeyBindings>
+                    </TextBox>
+                    <Button Grid.Column="1"
+                            Content="🔍  Search"
+                            Command="{Binding SearchCommand}"
+                            Background="#F5C518" Foreground="#0D0D14"
+                            CornerRadius="0,12,12,0"
+                            Padding="20,10"
+                            FontWeight="Bold" FontSize="14"/>
+                </Grid>
+
+                <Border Grid.Column="2"
+                        Background="#1A1A28"
+                        CornerRadius="8" Padding="14,8"
+                        Margin="8,0,0,0"
+                        VerticalAlignment="Center"
+                        IsVisible="{Binding IsLoading}">
+                    <TextBlock Text="⏳  Searching..."
+                               Foreground="#F5C518" FontSize="13"/>
+                </Border>
+
+            </Grid>
+        </Border>
+
+        <!-- ══════════════════════════════════════════════════════ -->
+        <!--                      TAB CONTROL                      -->
+        <!-- ══════════════════════════════════════════════════════ -->
+        <TabControl Grid.Row="1">
+
+            <!-- ───────────────────────────────────────────────── -->
+            <!--              TAB 1 – DASHBOARD                    -->
+            <!-- ───────────────────────────────────────────────── -->
+            <TabItem Header="📊  Dashboard">
+                <Grid ColumnDefinitions="*,Auto">
+
+                    <!-- ── Coloana principala ── -->
+                    <ScrollViewer Grid.Column="0" Background="Transparent">
+                        <StackPanel Margin="24,20" Spacing="24">
+
+                            <!-- STATISTICI -->
+                            <WrapPanel Orientation="Horizontal">
+
+                                <Border Background="#161620"
+                                        CornerRadius="16" Padding="24,16"
+                                        Margin="0,0,16,12" MinWidth="160"
+                                        BorderBrush="#2A2A3A" BorderThickness="1">
+                                    <StackPanel Spacing="4">
+                                        <TextBlock Text="{Binding WatchedCount}"
+                                                   FontSize="48" FontWeight="Bold"
+                                                   Foreground="#F5C518"/>
+                                        <TextBlock Text="FILME VIZIONATE"
+                                                   FontSize="11" FontWeight="SemiBold"
+                                                   Foreground="#6A6A8A"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Background="#161620"
+                                        CornerRadius="16" Padding="24,16"
+                                        Margin="0,0,16,12" MinWidth="160"
+                                        BorderBrush="#2A2A3A" BorderThickness="1">
+                                    <StackPanel Spacing="4">
+                                        <TextBlock Text="{Binding WatchlistCount}"
+                                                   FontSize="48" FontWeight="Bold"
+                                                   Foreground="#80C8A0"/>
+                                        <TextBlock Text="ÎN WATCHLIST"
+                                                   FontSize="11" FontWeight="SemiBold"
+                                                   Foreground="#6A6A8A"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Background="#161620"
+                                        CornerRadius="16" Padding="24,16"
+                                        Margin="0,0,16,12" MinWidth="160"
+                                        BorderBrush="#2A2A3A" BorderThickness="1">
+                                    <StackPanel Spacing="4">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock Text="{Binding AverageRatingDisplay}"
+                                                       FontSize="48" FontWeight="Bold"
+                                                       Foreground="#F5C518"/>
+                                            <TextBlock Text="⭐" FontSize="22"
+                                                       VerticalAlignment="Bottom"
+                                                       Margin="0,0,0,10"/>
+                                        </StackPanel>
+                                        <TextBlock Text="RATING MEDIU"
+                                                   FontSize="11" FontWeight="SemiBold"
+                                                   Foreground="#6A6A8A"/>
+                                    </StackPanel>
+                                </Border>
+
+                            </WrapPanel>
+
+                            <!-- PANOU RATING (vizibil cand e selectat un film) -->
+                            <Border IsVisible="{Binding SelectedUserMovie,
+                                                Converter={x:Static ObjectConverters.IsNotNull}}"
+                                    Background="#161620"
+                                    CornerRadius="14" Padding="20"
+                                    BorderBrush="#F5C518" BorderThickness="1">
+                                <Grid ColumnDefinitions="*,Auto,Auto">
+
+                                    <StackPanel Grid.Column="0" Spacing="8">
+                                        <TextBlock FontSize="12" FontWeight="SemiBold"
+                                                   Foreground="#6A6A8A">
+                                            <Run Text="ACORDĂ RATING: "/>
+                                            <Run Text="{Binding SelectedUserMovie.Movie.Title}"
+                                                 Foreground="#EAEAF0"/>
+                                        </TextBlock>
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <Slider Grid.Column="0"
+                                                    Value="{Binding PendingRating}"
+                                                    Minimum="1" Maximum="10"
+                                                    TickFrequency="0.5"
+                                                    IsSnapToTickEnabled="True"
+                                                    Foreground="#F5C518"
+                                                    VerticalAlignment="Center"/>
+                                            <Border Grid.Column="1"
+                                                    Background="#2A2A0A"
+                                                    CornerRadius="8" Padding="10,4"
+                                                    Margin="12,0,0,0">
+                                                <TextBlock Text="{Binding PendingRating,
+                                                                   StringFormat={}{0:0.0}}"
+                                                           FontSize="16" FontWeight="Bold"
+                                                           Foreground="#F5C518"
+                                                           Width="36" TextAlignment="Center"/>
+                                            </Border>
+                                        </Grid>
+                                    </StackPanel>
+
+                                    <Button Grid.Column="1"
+                                            Content="⭐  Salvează"
+                                            Command="{Binding RateMovieCommand}"
+                                            Background="#2A2A0A" Foreground="#F5C518"
+                                            CornerRadius="10" Padding="16,10"
+                                            FontWeight="Bold"
+                                            VerticalAlignment="Center"
+                                            Margin="16,0,8,0"/>
+
+                                    <Button Grid.Column="2"
+                                            Content="✕"
+                                            Command="{Binding ClearSelectionCommand}"
+                                            Background="Transparent" Foreground="#4A4A6A"
+                                            Padding="8,6" FontSize="16"
+                                            VerticalAlignment="Center"/>
+
+                                </Grid>
+                            </Border>
+
+                            <!-- WATCHLIST + WATCHED (doua coloane) -->
+                            <Grid ColumnDefinitions="*,20,*">
+
+                                <!-- Coloana WATCHLIST -->
+                                <StackPanel Grid.Column="0" Spacing="12">
+
+                                    <StackPanel Orientation="Horizontal" Spacing="10">
+                                        <TextBlock Text="WATCHLIST"
+                                                   FontSize="13" FontWeight="Bold"
+                                                   Foreground="#80C8A0"
+                                                   VerticalAlignment="Center"/>
+                                        <Border Background="#1A2A1A"
+                                                CornerRadius="10" Padding="8,3">
+                                            <TextBlock Text="{Binding WatchlistCount}"
+                                                       FontSize="12" FontWeight="Bold"
+                                                       Foreground="#80C8A0"/>
+                                        </Border>
+                                    </StackPanel>
+
+                                    <Border Background="#161620"
+                                            CornerRadius="12" Padding="16"
+                                            IsVisible="{Binding HasNoWatchlist}"
+                                            BorderBrush="#2A2A3A" BorderThickness="1">
+                                        <TextBlock Text="Watchlist-ul tău este gol."
+                                                   Foreground="#4A4A6A" FontSize="13"
+                                                   TextAlignment="Center"/>
+                                    </Border>
+
+                                    <ListBox ItemsSource="{Binding WatchlistMovies}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Background="#161620"
+                                                        CornerRadius="12"
+                                                        Margin="0,0,0,8" Padding="14"
+                                                        BorderBrush="#2A2A3A" BorderThickness="1">
+                                                    <Grid ColumnDefinitions="Auto,*,Auto">
+
+                                                        <Border Grid.Column="0"
+                                                                Width="54" Height="80"
+                                                                CornerRadius="8"
+                                                                Background="#0A0A12"
+                                                                Margin="0,0,12,0">
+                                                            <TextBlock Text="🎬" FontSize="20"
+                                                                       HorizontalAlignment="Center"
+                                                                       VerticalAlignment="Center"/>
+                                                        </Border>
+
+                                                        <StackPanel Grid.Column="1"
+                                                                    Spacing="4"
+                                                                    VerticalAlignment="Center">
+                                                            <TextBlock Text="{Binding Movie.Title}"
+                                                                       FontSize="14" FontWeight="SemiBold"
+                                                                       Foreground="#EAEAF0"
+                                                                       TextTrimming="CharacterEllipsis"/>
+                                                            <TextBlock Text="{Binding Movie.Year}"
+                                                                       FontSize="12" Foreground="#6A6A8A"/>
+                                                            <TextBlock Text="{Binding RatingDisplay}"
+                                                                       FontSize="12" Foreground="#F5C518"/>
+                                                        </StackPanel>
+
+                                                        <StackPanel Grid.Column="2"
+                                                                    Spacing="6"
+                                                                    VerticalAlignment="Center"
+                                                                    Margin="10,0,0,0">
+                                                            <Button Content="✔"
+                                                                    ToolTip.Tip="Marchează ca vizionat"
+                                                                    Command="{Binding $parent[Window].DataContext.MarkAsWatchedCommand}"
+                                                                    CommandParameter="{Binding}"
+                                                                    Background="#1A2A1A" Foreground="#80C8A0"
+                                                                    CornerRadius="8" Padding="10,6"/>
+                                                            <Button Content="⭐"
+                                                                    ToolTip.Tip="Selectează pentru rating"
+                                                                    Command="{Binding $parent[Window].DataContext.SelectUserMovieCommand}"
+                                                                    CommandParameter="{Binding}"
+                                                                    Background="#2A2A0A" Foreground="#F5C518"
+                                                                    CornerRadius="8" Padding="10,6"/>
+                                                            <Button Content="✕"
+                                                                    ToolTip.Tip="Șterge"
+                                                                    Command="{Binding $parent[Window].DataContext.RemoveMovieCommand}"
+                                                                    CommandParameter="{Binding}"
+                                                                    Background="#2A1A1A" Foreground="#C06060"
+                                                                    CornerRadius="8" Padding="10,6"/>
+                                                        </StackPanel>
+
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+
+                                </StackPanel>
+
+                                <!-- Coloana WATCHED -->
+                                <StackPanel Grid.Column="2" Spacing="12">
+
+                                    <StackPanel Orientation="Horizontal" Spacing="10">
+                                        <TextBlock Text="WATCHED"
+                                                   FontSize="13" FontWeight="Bold"
+                                                   Foreground="#F5C518"
+                                                   VerticalAlignment="Center"/>
+                                        <Border Background="#2A2A0A"
+                                                CornerRadius="10" Padding="8,3">
+                                            <TextBlock Text="{Binding WatchedCount}"
+                                                       FontSize="12" FontWeight="Bold"
+                                                       Foreground="#F5C518"/>
+                                        </Border>
+                                    </StackPanel>
+
+                                    <Border Background="#161620"
+                                            CornerRadius="12" Padding="16"
+                                            IsVisible="{Binding HasNoWatched}"
+                                            BorderBrush="#2A2A3A" BorderThickness="1">
+                                        <TextBlock Text="Niciun film vizionat încă."
+                                                   Foreground="#4A4A6A" FontSize="13"
+                                                   TextAlignment="Center"/>
+                                    </Border>
+
+                                    <ListBox ItemsSource="{Binding WatchedMovies}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Background="#161620"
+                                                        CornerRadius="12"
+                                                        Margin="0,0,0,8" Padding="14"
+                                                        BorderBrush="#2A2A3A" BorderThickness="1">
+                                                    <Grid ColumnDefinitions="Auto,*,Auto">
+
+                                                        <Border Grid.Column="0"
+                                                                Width="54" Height="80"
+                                                                CornerRadius="8"
+                                                                Background="#0A0A12"
+                                                                Margin="0,0,12,0">
+                                                            <TextBlock Text="🎬" FontSize="20"
+                                                                       HorizontalAlignment="Center"
+                                                                       VerticalAlignment="Center"/>
+                                                        </Border>
+
+                                                        <StackPanel Grid.Column="1"
+                                                                    Spacing="4"
+                                                                    VerticalAlignment="Center">
+                                                            <TextBlock Text="{Binding Movie.Title}"
+                                                                       FontSize="14" FontWeight="SemiBold"
+                                                                       Foreground="#EAEAF0"
+                                                                       TextTrimming="CharacterEllipsis"/>
+                                                            <TextBlock Text="{Binding Movie.Year}"
+                                                                       FontSize="12" Foreground="#6A6A8A"/>
+                                                            <TextBlock Text="{Binding RatingDisplay}"
+                                                                       FontSize="12" Foreground="#F5C518"/>
+                                                        </StackPanel>
+
+                                                        <StackPanel Grid.Column="2"
+                                                                    Spacing="6"
+                                                                    VerticalAlignment="Center"
+                                                                    Margin="10,0,0,0">
+                                                            <Button Content="⭐"
+                                                                    ToolTip.Tip="Selectează pentru rating"
+                                                                    Command="{Binding $parent[Window].DataContext.SelectUserMovieCommand}"
+                                                                    CommandParameter="{Binding}"
+                                                                    Background="#2A2A0A" Foreground="#F5C518"
+                                                                    CornerRadius="8" Padding="10,6"/>
+                                                            <Button Content="✕"
+                                                                    ToolTip.Tip="Șterge"
+                                                                    Command="{Binding $parent[Window].DataContext.RemoveMovieCommand}"
+                                                                    CommandParameter="{Binding}"
+                                                                    Background="#2A1A1A" Foreground="#C06060"
+                                                                    CornerRadius="8" Padding="10,6"/>
+                                                        </StackPanel>
+
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+
+                                </StackPanel>
+
+                            </Grid>
+
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <!-- ── Coloana 1: Panoul de Detalii (integrat din DetailsPanel_Snippet.axaml) ── -->
+                    <Border Grid.Column="1"
+                            Width="290"
+                            Background="#12121A"
+                            BorderBrush="#2A2A3A"
+                            BorderThickness="1,0,0,0">
+
+                        <Grid>
+
+                            <!-- Starea goala: niciun film selectat -->
+                            <StackPanel IsVisible="{Binding SelectedUserMovie,
+                                                    Converter={x:Static ObjectConverters.IsNull}}"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        Spacing="14"
+                                        Margin="20">
+                                <TextBlock Text="🎬"
+                                           FontSize="52"
+                                           HorizontalAlignment="Center"/>
+                                <TextBlock Text="Selectează un film&#10;pentru a vedea detaliile"
+                                           FontSize="13"
+                                           Foreground="#4A4A6A"
+                                           TextAlignment="Center"
+                                           TextWrapping="Wrap"/>
+                            </StackPanel>
+
+                            <!-- Starea cu film selectat -->
+                            <ScrollViewer IsVisible="{Binding SelectedUserMovie,
+                                                      Converter={x:Static ObjectConverters.IsNotNull}}"
+                                          Background="Transparent">
+                                <StackPanel Margin="20" Spacing="14">
+
+                                    <!-- Header panou -->
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <TextBlock Text="DETALII FILM"
+                                                   FontSize="11" FontWeight="Bold"
+                                                   Foreground="#4A4A6A"
+                                                   VerticalAlignment="Center"/>
+                                        <Button Grid.Column="1"
+                                                Content="✕"
+                                                Command="{Binding ClearSelectionCommand}"
+                                                Background="Transparent"
+                                                Foreground="#4A4A6A"
+                                                Padding="6,4" FontSize="15"/>
+                                    </Grid>
+
+                                    <!-- Poster (placeholder vizual) -->
+                                    <Border Height="340"
+                                            CornerRadius="12"
+                                            Background="#0A0A12"
+                                            ClipToBounds="True">
+                                        <StackPanel VerticalAlignment="Center" Spacing="10">
+                                            <TextBlock Text="🎬"
+                                                       FontSize="56"
+                                                       HorizontalAlignment="Center"/>
+                                            <TextBlock Text="{Binding SelectedUserMovie.Movie.Title}"
+                                                       FontSize="11"
+                                                       Foreground="#4A4A6A"
+                                                       HorizontalAlignment="Center"
+                                                       TextAlignment="Center"
+                                                       TextWrapping="Wrap"
+                                                       Margin="12,0"/>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <!-- Titlu -->
+                                    <TextBlock Text="{Binding SelectedUserMovie.Movie.Title}"
+                                               FontSize="17" FontWeight="Bold"
+                                               Foreground="#EAEAF0"
+                                               TextWrapping="Wrap"/>
+
+                                    <!-- Anul + Status -->
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <Border Background="#2A2A1A" CornerRadius="6" Padding="8,4">
+                                            <TextBlock Text="{Binding SelectedUserMovie.Movie.Year}"
+                                                       FontSize="12" FontWeight="SemiBold"
+                                                       Foreground="#9A9A6A"/>
+                                        </Border>
+                                        <Border Background="#1A2A1A" CornerRadius="6" Padding="8,4">
+                                            <TextBlock Text="{Binding SelectedUserMovie.WatchedStatus}"
+                                                       FontSize="12" FontWeight="SemiBold"
+                                                       Foreground="#80C8A0"/>
+                                        </Border>
+                                    </StackPanel>
+
+                                    <!-- Rating TMDB -->
+                                    <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                                        <TextBlock Text="⭐" FontSize="16" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding SelectedUserMovie.Movie.VoteAverage,
+                                                          StringFormat={}{0:0.0}}"
+                                                   FontSize="22" FontWeight="Bold"
+                                                   Foreground="#F5C518"
+                                                   VerticalAlignment="Center"/>
+                                        <TextBlock Text="TMDB"
+                                                   FontSize="11" Foreground="#4A4A6A"
+                                                   VerticalAlignment="Bottom" Margin="2,0,0,3"/>
+                                    </StackPanel>
+
+                                    <!-- Rating utilizator -->
+                                    <TextBlock Text="{Binding SelectedUserMovie.RatingDisplay}"
+                                               FontSize="13" Foreground="#8A8A9E"/>
+
+                                    <!-- Linie separatoare -->
+                                    <Border Height="1" Background="#2A2A3A"/>
+
+                                    <!-- Descriere -->
+                                    <TextBlock Text="DESCRIERE"
+                                               FontSize="11" FontWeight="Bold"
+                                               Foreground="#4A4A6A"/>
+
+                                    <TextBlock Text="{Binding SelectedUserMovie.Movie.Overview}"
+                                               FontSize="12"
+                                               Foreground="#8A8A9E"
+                                               TextWrapping="Wrap"
+                                               LineHeight="20"/>
+
+                                </StackPanel>
+                            </ScrollViewer>
+
+                        </Grid>
+                    </Border>
+
+                </Grid>
+            </TabItem>
+            <!--            TAB 2 – rezultate cautare           -->
+            <TabItem Header="{Binding SearchTabHeader}">
+                <Grid RowDefinitions="Auto,*">
+
+                    <StackPanel Grid.Row="0"
+                                IsVisible="{Binding HasNoSearchResults}"
+                                HorizontalAlignment="Center"
+                                Margin="0,80,0,0" Spacing="14">
+                        <TextBlock Text="🎬" FontSize="60"
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="Caută un film pentru a-l adăuga în lista ta."
+                                   Foreground="#4A4A6A" FontSize="15"
+                                   TextAlignment="Center"/>
+                    </StackPanel>
+
+                    <ScrollViewer Grid.Row="1"
+                                  IsVisible="{Binding HasSearchResults}"
+                                  Background="Transparent">
+                        <ListBox ItemsSource="{Binding SearchResults}"
+                                 Padding="24,16">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="#161620"
+                                            CornerRadius="14"
+                                            Margin="0,0,0,10" Padding="16"
+                                            BorderBrush="#2A2A3A" BorderThickness="1">
+                                        <Grid ColumnDefinitions="Auto,*,Auto">
+
+                                            <Border Grid.Column="0"
+                                                    Width="70" Height="105"
+                                                    CornerRadius="10"
+                                                    Background="#0A0A12"
+                                                    Margin="0,0,16,0">
+                                                <TextBlock Text="🎬" FontSize="28"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"/>
+                                            </Border>
+
+                                            <StackPanel Grid.Column="1"
+                                                        Spacing="6"
+                                                        VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding DisplayTitle}"
+                                                           FontSize="17" FontWeight="Bold"
+                                                           Foreground="#EAEAF0"/>
+                                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                                    <TextBlock Text="⭐" FontSize="13"/>
+                                                    <TextBlock Text="{Binding VoteAverage,
+                                                                       StringFormat={}{0:0.0}}"
+                                                               FontSize="13" FontWeight="SemiBold"
+                                                               Foreground="#F5C518"/>
+                                                    <TextBlock Text="TMDB"
+                                                               FontSize="11" Foreground="#4A4A6A"
+                                                               VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                                <TextBlock Text="{Binding Overview}"
+                                                           FontSize="12" Foreground="#7A7A9A"
+                                                           MaxLines="2"
+                                                           TextTrimming="CharacterEllipsis"
+                                                           TextWrapping="Wrap"/>
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Column="2"
+                                                        Spacing="8"
+                                                        VerticalAlignment="Center"
+                                                        Margin="16,0,0,0">
+                                                <Button Content="＋  Watchlist"
+                                                        Command="{Binding $parent[Window].DataContext.AddToWatchlistCommand}"
+                                                        CommandParameter="{Binding}"
+                                                        Background="#1A2A1A" Foreground="#80C8A0"
+                                                        CornerRadius="10" Padding="14,9"
+                                                        FontSize="13" FontWeight="SemiBold"/>
+                                                <Button Content="✔  Vizionat"
+                                                        Command="{Binding $parent[Window].DataContext.MarkSearchResultAsWatchedCommand}"
+                                                        CommandParameter="{Binding}"
+                                                        Background="#2A2A0A" Foreground="#F5C518"
+                                                        CornerRadius="10" Padding="14,9"
+                                                        FontSize="13" FontWeight="SemiBold"/>
+                                            </StackPanel>
+
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </ScrollViewer>
+
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+
+        <!-- ══════════════════════════════════════════════════════ -->
+        <!--                      STATUS BAR                       -->
+        <!-- ══════════════════════════════════════════════════════ -->
+        <Border Grid.Row="2"
+                Background="#0A0A10" Padding="24,8"
+                BorderBrush="#1E1E2E" BorderThickness="0,1,0,0">
+            <TextBlock Text="{Binding StatusMessage}"
+                       Foreground="#6A6A8A" FontSize="12"/>
+        </Border>
+
+    </Grid>
+</Window>

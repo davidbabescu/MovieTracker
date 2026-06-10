@@ -1,0 +1,40 @@
+is_global = true
+build_property.AvaloniaNameGeneratorIsEnabled = true
+build_property.AvaloniaNameGeneratorBehavior = InitializeComponent
+build_property.AvaloniaNameGeneratorDefaultFieldModifier = internal
+build_property.AvaloniaNameGeneratorFilterByPath = *
+build_property.AvaloniaNameGeneratorFilterByNamespace = *
+build_property.AvaloniaNameGeneratorViewFileNamingStrategy = NamespaceAndClassName
+build_property.AvaloniaNameGeneratorAttachDevTools = true
+build_property.TargetFramework = net8.0
+build_property.TargetFramework = net8.0
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.RuntimeIdentifier = 
+build_property.NETCoreSdkPortableRuntimeIdentifier = win-x64
+build_property.IsTestProject = 
+build_property.ProjectAssetsFile = c:\Users\David\Desktop\AC\MovieTracker\MovieTracker\obj\project.assets.json
+build_property.IntermediateOutputPath = obj\Debug\net8.0\
+build_property.AvaloniaMainPackageVersion = 11.2.1
+build_property.HasAvaloniaDiagnosticsSupport = 
+build_property.AvaloniaUseCompiledBindingsByDefault = false
+build_property.AvaloniaPreviewerNetCoreToolPath = C:\Users\David\.nuget\packages\avalonia\11.2.1\buildTransitive\\..\tools\netstandard2.0\designer\Avalonia.Designer.HostApp.dll
+build_property.MvvmToolkitEnableINotifyPropertyChangingSupport = true
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = MovieTracker
+build_property.ProjectDir = c:\Users\David\Desktop\AC\MovieTracker\MovieTracker\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.EffectiveAnalysisLevelStyle = 8.0
+build_property.EnableCodeStyleSeverity = 
+
+[c:/Users/David/Desktop/AC/MovieTracker/MovieTracker/App.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[c:/Users/David/Desktop/AC/MovieTracker/MovieTracker/Views/MainWindow.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

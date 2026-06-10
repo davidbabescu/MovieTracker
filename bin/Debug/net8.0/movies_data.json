@@ -1,0 +1,42 @@
+[
+  {
+    "Movie": {
+      "id": 272,
+      "title": "Batman Begins",
+      "release_date": "2005-06-10",
+      "poster_path": "/sPX89Td70IDDjVr85jdSBb4rWGr.jpg",
+      "overview": "Driven by tragedy, billionaire Bruce Wayne dedicates his life to uncovering and defeating the corruption that plagues his home, Gotham City.  Unable to work within the system, he instead creates a new identity, a symbol of fear for the criminal underworld - The Batman.",
+      "vote_average": 7.726,
+      "genre_ids": [
+        18,
+        80,
+        28
+      ]
+    },
+    "Rating": 0,
+    "IsWatched": false,
+    "DateAdded": "2026-06-10T02:16:15.8844688+03:00",
+    "WatchedStatus": "Unwatched",
+    "RatingDisplay": "Not rated"
+  },
+  {
+    "Movie": {
+      "id": 414906,
+      "title": "The Batman",
+      "release_date": "2022-03-01",
+      "poster_path": "/74xTEgt7R36Fpooo50r9T25onhq.jpg",
+      "overview": "In his second year of fighting crime, Batman uncovers corruption in Gotham City that connects to his own family while facing a serial killer known as the Riddler.",
+      "vote_average": 7.7,
+      "genre_ids": [
+        80,
+        9648,
+        53
+      ]
+    },
+    "Rating": 9.5,
+    "IsWatched": true,
+    "DateAdded": "2026-06-10T02:15:38.1755224+03:00",
+    "WatchedStatus": "Watched",
+    "RatingDisplay": "9.5/10"
+  }
+]
